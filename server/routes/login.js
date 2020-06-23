@@ -22,9 +22,10 @@ app.post('/login', (req, res) => {
       return res.status(400).json({ok: false, err: {message: 'Contraseña incorrecta'}})
     }
     let token = jwt.sign({
-      usuario: usuarioDB
+      usuario: usuarioDB,
+      id: usuarioDB.id
     }, process.env.TOKEN_SEED, {expiresIn: process.env.TOKEN_EXPIRES_IN})
-    res.json({ok: true, usuario: usuarioDB, token})
+    return res.json({ok: true, usuario: usuarioDB, token})
   })
 })
 
@@ -75,7 +76,8 @@ app.post('/google', async (req, res) => {
             return res.status(500).json({ok: false, err})
           }
           let token = jwt.sign({
-            usuario: usuarioDB
+            usuario: usuarioDB,
+            id: usuarioDB.id
           }, process.env.TOKEN_SEED, {expiresIn: process.env.TOKEN_EXPIRES_IN})
           return res.json({ok: true, usuario: usuarioDB, token})
         })
